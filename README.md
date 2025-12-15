@@ -39,7 +39,9 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-
+<p align="center">
+  <img src="https://github.com/snehashis-roy/GENESIS/blob/master/F1.jpg"  height="800"/>  
+</p>
 
 
 
