@@ -83,9 +83,10 @@ To get a local copy up and running follow these simple example steps.
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
+Snehashis Roy - snehashis[dot]roy@gmail[dot]com
 
-Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
+Project Link: [https://github.com/snehashis-roy/GENESIS](https://github.com/snehashis-roy/GENESIS)
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
