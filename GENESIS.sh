@@ -17,6 +17,7 @@ check_modules N4BiasFieldCorrection
 check_modules gzip
 check_modules runROBEX.sh
 check_modules ROBEX
+check_modules N4BiasFieldCorrection
 
 
 
@@ -102,26 +103,26 @@ $ROOT/antsaffine.sh ute1.nii ute2.nii ute2_reg.nii yes
 mv -vf ute2_reg.nii ute2.nii
 
 
-echo "Register atlas to ute2 via approximate ANTS to remove background noise and estimate white matter intensity --"
-$ROOT/AntsExample.sh ute2.nii $ATLASDIR/atlas_ute2.nii fastfortesting atlas_reg.nii
-antsApplyTransforms -d 3 -i $ATLASWMMASK -r ute2.nii -o atlas_wmmask_reg.nii -n NearestNeighbor -t atlas_reg0GenericAffine.mat atlas_reg1Warp.nii.gz  -f 0 -v 0
-antsApplyTransforms -d 3 -i $ATLASHMASK -r ute2.nii -o atlas_headmask_reg.nii -n NearestNeighbor -t atlas_reg0GenericAffine.mat atlas_reg1Warp.nii.gz  -f 0 -v 0
-rm -f *Warp.nii.gz
+#echo "Register atlas to ute2 via approximate ANTS to remove background noise and estimate white matter intensity --"
+#$ROOT/AntsExample.sh ute2.nii $ATLASDIR/atlas_ute2.nii fastfortesting atlas_reg.nii
+#antsApplyTransforms -d 3 -i $ATLASWMMASK -r ute2.nii -o atlas_wmmask_reg.nii -n NearestNeighbor -t atlas_reg0GenericAffine.mat atlas_reg1Warp.nii.gz  -f 0 -v 0
+#antsApplyTransforms -d 3 -i $ATLASHMASK -r ute2.nii -o atlas_headmask_reg.nii -n NearestNeighbor -t atlas_reg0GenericAffine.mat atlas_reg1Warp.nii.gz  -f 0 -v 0
+#rm -f *Warp.nii.gz
 
-echo "Skullstrip ute2 for fixing some potential artifacts after synthesizing CT --"
+echo "Skullstrip ute2 to find robust normalization factor --"
 echo runROBEX.sh ute2.nii ute2_strip.nii   # skullstrip ute2 and use brainmask for fixing some artifacts after synthesis
 runROBEX.sh ute2.nii ute2_strip.nii 
 echo fslmaths ute2_strip.nii -bin brainmask.nii
 fslmaths ute2_strip.nii -bin brainmask.nii
 gzip -vf ute2_strip.nii
 
-echo "Dilating headmask for robust removal of background noise --"
-for u in 1 2 3 4
-do
-    fslmaths atlas_headmask_reg.nii -kernel boxv 3 -dilM atlas_headmask_reg.nii -odt char
-done
-echo fslmaths ute1.nii -mul atlas_headmask_reg.nii ute1.nii
-fslmaths ute1.nii -mul atlas_headmask_reg.nii ute1.nii
+#echo "Dilating headmask for robust removal of background noise --"
+#for u in 1 2 3 4
+#do
+#    fslmaths atlas_headmask_reg.nii -kernel boxv 3 -dilM atlas_headmask_reg.nii -odt char
+#done
+#echo fslmaths ute1.nii -mul atlas_headmask_reg.nii ute1.nii
+#fslmaths ute1.nii -mul atlas_headmask_reg.nii ute1.nii
 
 
 # Removal of background noise is crucial because synthesizing the noise voxels could take long time
